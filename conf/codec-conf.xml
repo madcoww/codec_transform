@@ -1,0 +1,18 @@
+<configuration>
+    <property>
+        <name>codec_prefix</name>
+        <value>/asst</value>
+    </property>
+    <property>
+        <name>codec_endpoint</name>
+        <value>/codec</value>
+    </property>
+    <property>
+        <name>codec_port</name>
+        <value>9997</value>
+    </property>
+    <property>
+        <name>max_iterations</name>
+        <value>5</value>
+    </property>
+</configuration>

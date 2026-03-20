@@ -1,0 +1,61 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: asst-codec
+  labels:
+    app: asst-codec
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: asst-codec
+  template:
+    metadata:
+      labels:
+        app: asst-codec
+    spec:
+      containers:
+        - name: asst-payload-v2
+          image: registry.seculayer.com:31500/eyecloudai/asst-codec:3.0-2026-asst-R2
+          imagePullPolicy: Always
+          command: ["python", "src/CodecServer.py"]
+
+          env:
+            - name: TZ
+              value: Asia/Seoul
+
+          volumeMounts:
+            - name: timezone-config
+              mountPath: /etc/localtime
+
+            - name: asst-codec-conf
+              mountPath: /eyeCloudAI/app/conf/codec-conf.xml
+              subPath: codec-conf.xml
+
+      volumes:
+        - name: timezone-config
+          hostPath:
+            path: /usr/share/zoneinfo/Asia/Seoul
+
+        - name: asst-codec-conf
+          configMap:
+            name: asst-codec-conf
+
+      nodeSelector:
+        app: "true"
+        master: "true"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: asst-codec-svc
+spec:
+  type: "NodePort"
+  selector:
+    app: asst-codec
+  ports:
+    - name: "payload"
+      port: 9997
+      targetPort: 9997
+      nodePort: 39997
