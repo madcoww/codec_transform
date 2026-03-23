@@ -7,14 +7,16 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import BaseModel, field_validator, model_validator
+from pydantic import BaseModel
+from pydantic import field_validator
+from pydantic import model_validator
 
 SUPPORTED_CODECS = {'url', 'base64', 'base64url', 'unicode', 'html', 'hex', 'octal', 'xml'}
 
 
 class CodecRequest(BaseModel):
     target: str | list[str]
-    direction: Literal["encode", "decode"]
+    direction: Literal['encode', 'decode']
     codec_type: str | None = None       # 단일 encode/decode
     encode_chain: list[str] | None = None  # multi-layer encode
 

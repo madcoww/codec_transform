@@ -5,8 +5,9 @@ Powered by Seculayer © 2025 AI Team, R&D Center.
 """
 from __future__ import annotations
 
+from collections.abc import AsyncIterator
 from logging import Logger
-from typing import AsyncIterator, ClassVar
+from typing import ClassVar
 
 from src.common.Constant import Constants
 from src.common.LoggerManager import LoggerManager
@@ -57,7 +58,9 @@ class CodecProcessor:
         direction = request.direction
         codec_type = request.codec_type
 
-        self.logger.info(f'Processing request: direction={direction}, codec_type={codec_type}, encode_chain={request.encode_chain}, target_count={len(targets)}')
+        self.logger.info(
+            f'Processing request: direction={direction}, codec_type={codec_type}, encode_chain={request.encode_chain}, target_count={len(targets)}',
+        )
 
         if request.encode_chain is not None:
             async for chunk in self._multi_layer_encode(targets, request):

@@ -5,7 +5,8 @@ Powered by Seculayer © 2025 AI Team, R&D Center.
 """
 from __future__ import annotations
 
-from abc import ABC, abstractmethod
+from abc import ABC
+from abc import abstractmethod
 
 
 class BaseTransformer(ABC):

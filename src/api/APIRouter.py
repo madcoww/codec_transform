@@ -41,11 +41,11 @@ router = APIRouter()
 
 
 @app.exception_handler(RequestValidationError)
-async def validation_exception_handler(request: Request, exc: RequestValidationError) -> StreamingResponse:
+async def validation_exception_handler(_request: Request, exc: RequestValidationError) -> StreamingResponse:
     """Pydantic 검증 실패 시 422 JSON 대신 SSE 에러 스트림으로 반환.
     클라이언트가 항상 SSE 포맷으로 응답 받을 수 있도록 통일.
     """
-    messages = [f"{' → '.join(str(l) for l in e['loc'][1:])}: {e['msg']}" for e in exc.errors()]
+    messages = [f"{' → '.join(str(loc) for loc in e['loc'][1:])}: {e['msg']}" for e in exc.errors()]
     message = ' / '.join(messages)
 
     async def error_stream():
